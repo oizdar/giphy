@@ -50,21 +50,24 @@
     border: 1px dashed red;
     margin: 5px;
 }
-.gif a {
+.gif button {
     background: #aaa;
     color: #000;
     text-decoration: none;
-    padding: 2px;
-    margin: 0 auto 0 10px;
+    padding: 4px;
+    margin: 0 0 0 30px;
     border: 1px solid #000;
-    border-radius: 1px;
+    border-radius: 10px;
     display: inline-block;
     float: left;
 }
-.gif a.like::before {
-}
-.gif a.like {
+
+.gif button.like {
     clear: both;
+}
+.gif button:hover {
+    background: #fcc;
+    cursor: pointer;
 }
 
 #header {

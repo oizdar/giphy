@@ -1,6 +1,7 @@
 <div id="search-container">
     {% if not gifs %}
-        <h2 id="header"></h2>
+
+        <h2 id="header">Doesn't Found Any gifs</h2>
     {% else %}
         <div id="gifs-container">
             {% for gif in gifs %}
@@ -8,10 +9,15 @@
                 <video width="200px" autoplay loop>
                     <source src="{{ gif.images.fixed_width_small.mp4 }}" type="video/mp4">
                 </video>
-                <a class="like" href="index.php?method=like">Like</a>
-                <a href="index.php?method=dislike">Dislike</a>
+                <button class="like" value="{{gif.id}}">
+                    Like | <span id="{{gif.id}}-like">{{ gif.rated.like }}</span>
+                </button>
+                <button class="dislike" value="{{gif.id}}">
+                    Dislike | <span id="{{gif.id}}-dislike">{{ gif.rated.dislike }}</span>
+                </button>
             </div>
             {% endfor %}
         </div>
+        <script src="js/ajax.js" ></script>
     {% endif %}
 </div>
