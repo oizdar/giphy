@@ -1,0 +1,76 @@
+.form-container {
+    background: #EEE;
+    width: 500px;
+    margin: 0 auto 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+#search-form label {
+    font-weight: bold;
+}
+
+.btn {
+    margin-bottom: 5px;
+    box-shadow: none;
+    color: #fff;
+    background-color: #000;
+    padding: 10px;
+    border-radius: 16px;
+}
+
+.btn:hover {
+    color: #fff;
+    background-color: #f33;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+
+.error {
+    background: #fdd;
+    color: #f36;
+    border: 1px solid #f36;
+    padding: 25px;
+    margin: 10px auto 0 auto;
+    width 400px;
+}
+
+#search-container {
+    background: #eee;
+    width: 900px;
+    margin: 10px auto 0 auto;
+    padding: 10px;
+    text-align: center;
+}
+#search-container .gif {
+    display: inline-block;
+}
+
+.gif video {
+    float: left;
+    border: 1px dashed red;
+    margin: 5px;
+}
+.gif a {
+    background: #aaa;
+    color: #000;
+    text-decoration: none;
+    padding: 2px;
+    margin: 0 auto 0 10px;
+    border: 1px solid #000;
+    border-radius: 1px;
+    display: inline-block;
+    float: left;
+}
+.gif a.like::before {
+}
+.gif a.like {
+    clear: both;
+}
+
+#header {
+    width: 50%;
+    margin: auto;
+    background: #fda;
+    border: 1px solid red;
+
+}

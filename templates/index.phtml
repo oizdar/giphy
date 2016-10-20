@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Giphy Task</title>
+        <meta charset="utf-8" />
+        <link href="css/main.css" rel="stylesheet" />
+        <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="form-container">
+            <form method="POST" id="search-form">
+            <label>Search by: </label>
+                <input type="text" name="phrase" id="search-phrase" />
+                <button type="submit" class="btn">Search</button>
+            </form>
+
+            {% if not httpStatus == 200 %}
+            <div class="error " id="error-msg">{{ meta.message }}</div>
+            {% endif %}
+        </div>
+            {% if gifs %}
+                {{ include('gifs.phtml') }}
+            {% endif %}
+
+    </body>
+</html>

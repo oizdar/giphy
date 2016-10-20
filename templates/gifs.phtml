@@ -1,0 +1,17 @@
+<div id="search-container">
+    {% if not gifs %}
+        <h2 id="header"></h2>
+    {% else %}
+        <div id="gifs-container">
+            {% for gif in gifs %}
+            <div class="gif">
+                <video width="200px" autoplay loop>
+                    <source src="{{ gif.images.fixed_width_small.mp4 }}" type="video/mp4">
+                </video>
+                <a class="like" href="index.php?method=like">Like</a>
+                <a href="index.php?method=dislike">Dislike</a>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
