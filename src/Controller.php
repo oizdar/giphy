@@ -52,7 +52,7 @@ class Controller
         if (isset($_REQUEST['phrase'])) {
             $this->data['phrase'] = $_REQUEST['phrase'];
             $offset = (isset($_GET['page']))
-                ? (int)$_GET['page']*self::LIMIT
+                ? ((int)$_GET['page']-1)*self::LIMIT
                 : 0;
             $params = [
                 'q' => $_REQUEST['phrase'],
@@ -103,9 +103,11 @@ class Controller
      */
     private function ajax()
     {
+
         header('Content-Type: application/json');
-        if (isset($_POST['db']) && isset($_POST['id'])) {
-            $db = $_POST['db'];
+        if (isset($_POST['action']) && isset($_POST['id'])) {
+            $db = $_POST['action'];
+            $db = new Session();
             $rating = new Rating();
             $response = $rating->$db($_POST['id']);
         }
