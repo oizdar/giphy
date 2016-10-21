@@ -1,6 +1,10 @@
 <?php
 namespace main;
 
+/**
+ * Class used to comunicate with api by cURL
+ * Prepared for easy extensibility
+ */
 class GiphyApi
 {
 
@@ -14,6 +18,10 @@ class GiphyApi
     {
         $this->apiKey = $apiKey;
     }
+    /**
+     * Returns last httpStatus
+     * @return integer;
+     */
     public function getHttpStatus() : int
     {
         return isset($this->httpStatus) ? $this->httpStatus : 404;

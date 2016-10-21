@@ -1,14 +1,32 @@
 <?php
 namespace main;
 
+/**
+ * Main Controller Class
+ */
 class Controller
 {
+    /**
+     * Default limit constant
+     */
     const LIMIT = 20;
 
+    /**
+     * Self instance of singleton
+     * @var main\Controller
+     */
     private static $instance;
 
+    /**
+     * Choosen template
+     * @var string
+     */
     private $template = 'index.phtml';
 
+    /**
+     * Data used in template
+     * @var array
+     */
     private $data = [];
 
     private function __construct()
@@ -26,12 +44,14 @@ class Controller
     }
 
     /**
-     * Execute selected action
+     * Execute selected action method
      * @return void
      */
     public function execute()
     {
         $method = (isset($_POST['method'])) ? $_POST['method'] : 'search';
+        $method .= 'Action';
+
         if (method_exists($this, $method)) {
             $this->$method();
         } else {
@@ -42,71 +62,91 @@ class Controller
     }
 
     /**
-     * Action for SEARCH
+     * Action search
      * @return void
      */
-    private function search()
+    private function searchAction()
     {
         $giphy = new GiphyApi('dc6zaTOxFJmzC');
-        $httpStatus = 200;
+
         if (isset($_REQUEST['phrase'])) {
             $this->data['phrase'] = $_REQUEST['phrase'];
+            $limit = (isset($_REQUEST['limit'])) ? $_REQUEST['limit'] : self::LIMIT;
             $offset = (isset($_GET['page']))
-                ? ((int)$_GET['page']-1)*self::LIMIT
+                ? ((int)$_GET['page']-1) * $limit
                 : 0;
+
             $params = [
-                'q' => $_REQUEST['phrase'],
-                'limit' => self::LIMIT,
+                'q' => $this->data['phrase'],
+                'limit' => $limit,
                 'offset' => $offset
             ];
-
-            $gifs = json_decode($giphy->searchGifs($params), true);
             $httpStatus = $giphy->getHttpStatus();
-            $this->data['meta'] = $gifs['meta'];
-            $this->data['pagination'] = $gifs['pagination'];
-            if (!empty($gifs['data'])) {
-                $rating = new Rating();
-                foreach ($gifs['data'] as &$gif) {
-                    $rated = $rating->getGifRating($gif['id']);
-                    if (!$rated) {
-                        $gif['rated']['like'] = 0;
-                        $gif['rated']['dislike'] = 0;
-                    } else {
-                        $gif['rated']['like'] =
-                            (!empty($rated['like'])) ? $rated['like'] : 0;
-                        $gif['rated']['dislike'] =
-                            (!empty($rated['dislike'])) ? $rated['dislike'] : 0;
-                    }
-                    if (isset($_COOKIE[$gif['id']])) {
-                        $gif['rated']['user'] = $_COOKIE[$gif['id']];
-                    }
-                }
-            }
-            $this->data['gifs'] = $gifs['data'];
+            $gifs = json_decode($giphy->searchGifs($params), true);
 
-            $this->data['pagination']['page'] =
-                (isset($_GET['page'])) ? (int)$_GET['page'] : 1;
-            $this->data['pagination']['url'] =
-                'http://'. $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
-            $pages = $gifs['pagination']['total_count']/self::LIMIT;
-            ($gifs['pagination']['total_count']%self::LIMIT === 0)
-                ? $pages -= 1
-                : null;
-            $this->data['pagination']['pages'] = ceil($pages);
+            $this->data['meta'] = $gifs['meta'];
+
+            $this->prepareGifs($gifs['data']);
+            $this->setGifsPagination($gifs['pagination'], $limit);
 
         } else {
-            $this->data['first'] = true;
+            $httpStatus = 200;
+            $this->data['first_visit'] = true;
         }
         $this->data['httpStatus'] = $httpStatus;
+    }
+
+    /**
+     * Prepare Gifs Data
+     * @param  array $gifs  Received gifs array from
+     * @return [type]       [description]
+     */
+    private function prepareGifs($gifs)
+    {
+        if (!empty($gifs)) {
+            $rating = new Rating();
+            foreach ($gifs as &$gif) {
+                $rated = $rating->getGifRating($gif['id']);
+                if (!$rated) {
+                    $gif['rated']['like'] = 0;
+                    $gif['rated']['dislike'] = 0;
+                } else {
+                    $gif['rated']['like'] =
+                        (!empty($rated['like'])) ? $rated['like'] : 0;
+                    $gif['rated']['dislike'] =
+                        (!empty($rated['dislike'])) ? $rated['dislike'] : 0;
+                }
+                if (isset($_COOKIE[$gif['id']])) {
+                    $gif['rated']['user'] = $_COOKIE[$gif['id']];
+                }
+            }
+        }
+        $this->data['gifs'] = $gifs;
+    }
+
+    /**
+     * Prepare Gifs Pagination
+     */
+    private function setGifsPagination(array $pagination, int $limit)
+    {
+        $this->data['pagination'] = $pagination;
+        $this->data['pagination']['page'] =
+            (isset($_GET['page'])) ? (int)$_GET['page'] : 1;
+        $this->data['pagination']['url'] =
+            'http://'. $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+        $pages = $pagination['total_count']/$limit;
+        ($pagination['total_count']%$limit === 0)
+            ? $pages -= 1
+            : null;
+        $this->data['pagination']['pages'] = ceil($pages);
     }
 
     /**
      * Ajax action
      * @return  response in JSON
      */
-    private function ajax()
+    private function ajaxAction()
     {
-
         header('Content-Type: application/json');
         if (isset($_POST['action']) && isset($_POST['id'])) {
             $id = $_POST['id'];
@@ -121,7 +161,6 @@ class Controller
                 if ($remove) {
                     unset($_COOKIE[$id]);
                 }
-
             }
             $response = $rating->$action($id);
             $response['removed'] = $remove;

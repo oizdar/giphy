@@ -17,7 +17,7 @@
             <div class="error " id="error-msg">{{ meta.msg }}</div>
             {% endif %}
         </div>
-        {% if not first %}
+        {% if not first_visit %}
             {{ include('gifs.phtml') }}
         {% endif %}
     </form>

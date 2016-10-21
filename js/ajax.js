@@ -23,7 +23,6 @@ function updateRating(id, response) {
         $('#'+id+'-'+response.removed.method).text(response.removed.value);
         $('#'+id+'-'+response.removed.method).parent('button').removeAttr('disabled');
     }
-
 }
 
 $('.like').each(function() {
