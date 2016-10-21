@@ -10,18 +10,21 @@
 }
 
 .btn {
-    margin-bottom: 5px;
-    box-shadow: none;
+    display:inline-block;
     color: #fff;
+    margin: 3px 0;
     background-color: #000;
-    padding: 10px;
+    padding:  5px 10px;
+    border: 2px outset;
     border-radius: 16px;
+    text-decoration: none;
 }
 
 .btn:hover {
     color: #fff;
     background-color: #f33;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5),0 6px 20px 0 rgba(0,0,0,0.19);
+    cursor: pointer;
 }
 
 .error {

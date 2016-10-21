@@ -9,7 +9,12 @@ class Controller
     /**
      * Default limit constant
      */
-    const LIMIT = 25;
+    const LIMIT = 20;
+
+    /**
+     * Giphy api_key
+     */
+    const APIKEY = 'dc6zaTOxFJmzC';
 
     /**
      * Self instance of singleton
@@ -67,7 +72,7 @@ class Controller
      */
     private function searchAction()
     {
-        $giphy = new GiphyApi('dc6zaTOxFJmzC');
+        $giphy = new GiphyApi(self::APIKEY);
 
         if (isset($_REQUEST['phrase'])) {
             $this->data['phrase'] = $_REQUEST['phrase'];
@@ -81,13 +86,14 @@ class Controller
                 'limit' => $limit,
                 'offset' => $offset
             ];
-            $httpStatus = $giphy->getHttpStatus();
             $gifs = json_decode($giphy->searchGifs($params), true);
-
+            $httpStatus = $giphy->getHttpStatus();
             $this->data['meta'] = $gifs['meta'];
             $this->data['limit'] = $limit;
-            $this->prepareGifs($gifs['data']);
-            $this->setGifsPagination($gifs['pagination'], $limit);
+            if ($httpStatus == 200) {
+                $this->prepareGifs($gifs['data']);
+                $this->setGifsPagination($gifs['pagination'], $limit);
+            }
 
         } else {
             $httpStatus = 200;
@@ -128,7 +134,7 @@ class Controller
     /**
      * Prepare Gifs Pagination
      */
-    private function setGifsPagination(array $pagination, int $limit)
+    private function setGifsPagination($pagination, int $limit)
     {
         $this->data['pagination'] = $pagination;
         $this->data['pagination']['page'] =

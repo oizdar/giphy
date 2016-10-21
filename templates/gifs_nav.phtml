@@ -1,13 +1,27 @@
 <nav id="gifs_nav">
-    Found {{ pagination.total_count }} Gifs.
-    <hr>
+    Found {{ pagination.total_count }}
+    <hr />
     {% if pagination.page > 1 %}
         <a href="{{pagination.url}}?phrase={{phrase}}&limit={{limit}}&page={{pagination.page-1}}">Previous</a>
     {% endif %}
     {% if not (pagination.pages == 1) %}
-        Page {{ pagination.page }} of {{ pagination.pages }}
+        {{ pagination.page }} of {{ pagination.pages }}
     {% endif %}
     {% if pagination.page < pagination.pages %}
         <a href="{{pagination.url}}?phrase={{phrase}}&limit={{limit}}&page={{pagination.page+1}}">Next</a>
+    {% endif %}
+    <hr />
+    {% if pagination.pages > 1 %}
+    <label>Select Page:</label>
+        <select id="select_page">
+            {% for i in 1..pagination.pages %}
+                <option value="{{i}}" {%if i == pagination.page %}selected="selected"{% endif %} > {{ i }} </option>
+            {% endfor %}
+        </select>
+    <script type="text/javascript">
+        $('#select_page').change(function(){
+            window.location.href = '{{pagination.url}}?phrase={{phrase}}&limit={{limit}}&page='+this.value
+        });
+    </script>
     {% endif %}
 </nav>
