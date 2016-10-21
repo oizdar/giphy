@@ -7,10 +7,10 @@
         <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
     </head>
     <body>
-    <form method="POST" id="search-form">
+    <form method="POST" id="search-form" action="index.php">
         <div class="form-container">
             <label>Search by: </label>
-                <input type="text" name="phrase" id="search-phrase" value="{{input}}"/>
+                <input type="text" name="phrase" id="search-phrase" value="{{phrase}}"/>
                 <button type="submit" class="btn">Search</button>
 
             {% if not httpStatus == 200 %}

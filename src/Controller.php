@@ -49,12 +49,13 @@ class Controller
     {
         $giphy = new GiphyApi('dc6zaTOxFJmzC');
         $httpStatus = 200;
-        if (isset($_POST['phrase'])) {
-            $this->data['input'] = $_POST['phrase'];
-            $offset = (isset($_POST['offset'])) ? (int)$_POST['offset'] : 0;
-
+        if (isset($_REQUEST['phrase'])) {
+            $this->data['phrase'] = $_REQUEST['phrase'];
+            $offset = (isset($_GET['page']))
+                ? (int)$_GET['page']*self::LIMIT
+                : 0;
             $params = [
-                'q' => $_POST['phrase'],
+                'q' => $_REQUEST['phrase'],
                 'limit' => self::LIMIT,
                 'offset' => $offset
             ];
@@ -62,7 +63,7 @@ class Controller
             $gifs = json_decode($giphy->searchGifs($params), true);
             $httpStatus = $giphy->getHttpStatus();
             $this->data['meta'] = $gifs['meta'];
-            $this->data['pagination'] = $gifs['meta'];
+            $this->data['pagination'] = $gifs['pagination'];
             if (!empty($gifs['data'])) {
                 $rating = new Rating();
                 foreach ($gifs['data'] as &$gif) {
@@ -79,6 +80,17 @@ class Controller
                 }
             }
             $this->data['gifs'] = $gifs['data'];
+
+            $this->data['pagination']['page'] =
+                (isset($_GET['page'])) ? (int)$_GET['page'] : 1;
+            $this->data['pagination']['url'] =
+                'http://'. $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+            $pages = $gifs['pagination']['total_count']/self::LIMIT;
+            ($gifs['pagination']['total_count']%self::LIMIT === 0)
+                ? $pages -= 1
+                : null;
+            $this->data['pagination']['pages'] = ceil($pages);
+
         } else {
             $this->data['first'] = true;
         }
