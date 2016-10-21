@@ -65,9 +65,19 @@
 .gif button.like {
     clear: both;
 }
+
 .gif button:hover {
     background: #fcc;
     cursor: pointer;
+}
+
+.gif button:disabled {
+    color: #f33;
+    border: 1px solid #f33;
+}
+.gif button:disabled:hover {
+    background: #aaa;
+    cursor: inherit;
 }
 
 #header {

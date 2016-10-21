@@ -9,10 +9,12 @@
                 <video width="200px" autoplay loop>
                     <source src="{{ gif.images.fixed_width_small.mp4 }}" type="video/mp4">
                 </video>
-                <button class="like" value="{{gif.id}}">
-                    Like | <span id="{{gif.id}}-like">{{ gif.rated.like }}</span>
+                <button class="like" value="{{gif.id}}"
+                    {% if gif.rated.user is same as('like') %} disabled {% endif %}>
+                        Like | <span id="{{gif.id}}-like">{{ gif.rated.like }}</span>
                 </button>
-                <button class="dislike" value="{{gif.id}}">
+                <button class="dislike" value="{{gif.id}}"
+                    {% if gif.rated.user is same as('dislike') %} disabled {% endif %}>
                     Dislike | <span id="{{gif.id}}-dislike">{{ gif.rated.dislike }}</span>
                 </button>
             </div>

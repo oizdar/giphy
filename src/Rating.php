@@ -32,6 +32,7 @@ class Rating
 
     public function addLike($id)
     {
+
         return ['method' => 'like', 'value' => $this->add($id, 'like')];
     }
 
@@ -42,9 +43,7 @@ class Rating
 
     private function add($id, $column)
     {
-        $query = 'select `' . $column . '` from `giphy` where id=\''.$id.'\';';
-        $statement = $this->db->query($query);
-        $row = $statement->fetch(\PDO::FETCH_ASSOC);
+        $row = $this->selectColumn($id, $column);
         if (!$row) {
             $value = 1;
             $query = 'INSERT INTO `giphy` (`id`, `' . $column . '`) VALUES (\''.$id.'\', 1);';
@@ -54,5 +53,35 @@ class Rating
         }
 
         return ($this->db->query($query)) ? $value : false;
+    }
+
+    private function selectColumn($id, $column)
+    {
+        $query = 'select `' . $column . '` from `giphy` where id=\''.$id.'\';';
+        $statement = $this->db->query($query);
+        return $statement->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    public function removeLike($id)
+    {
+        return ['method' => 'like', 'value' => $this->remove($id, 'like')];
+    }
+
+    public function removeDislike($id)
+    {
+        return ['method' => 'dislike', 'value' => $this->remove($id, 'dislike')];
+    }
+
+    public function remove($id, $column)
+    {
+        $row = $this->selectColumn($id, $column);
+        if (!$row) {
+            $response = false;
+        } else {
+            $value = ($row[$column]-1);
+            $query = 'UPDATE `giphy` SET `' . $column . '`=' . $value . ' WHERE id=\'' . $id .'\';';
+            $response = ($this->db->query($query)) ? $value : false;
+        }
+        return $response;
     }
 }

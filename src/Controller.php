@@ -77,6 +77,9 @@ class Controller
                         $gif['rated']['dislike'] =
                             (!empty($rated['dislike'])) ? $rated['dislike'] : 0;
                     }
+                    if (isset($_COOKIE[$gif['id']])) {
+                        $gif['rated']['user'] = $_COOKIE[$gif['id']];
+                    }
                 }
             }
             $this->data['gifs'] = $gifs['data'];
@@ -106,10 +109,23 @@ class Controller
 
         header('Content-Type: application/json');
         if (isset($_POST['action']) && isset($_POST['id'])) {
-            $db = $_POST['action'];
-            $db = new Session();
+            $id = $_POST['id'];
+            $action = 'add'.ucfirst($_POST['action']);
+
             $rating = new Rating();
-            $response = $rating->$db($_POST['id']);
+            $remove = null;
+            if (isset($_COOKIE[$id])) {
+                $cookie = $_COOKIE[$id];
+                $method = 'remove' . ucfirst($cookie);
+                $remove = $rating->$method($id);
+                if ($remove) {
+                    unset($_COOKIE[$id]);
+                }
+
+            }
+            $response = $rating->$action($id);
+            $response['removed'] = $remove;
+            setcookie($id, $_POST['action']);
         }
         die(json_encode($response));
     }
