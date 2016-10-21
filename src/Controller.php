@@ -9,7 +9,7 @@ class Controller
     /**
      * Default limit constant
      */
-    const LIMIT = 20;
+    const LIMIT = 25;
 
     /**
      * Self instance of singleton
@@ -85,12 +85,13 @@ class Controller
             $gifs = json_decode($giphy->searchGifs($params), true);
 
             $this->data['meta'] = $gifs['meta'];
-
+            $this->data['limit'] = $limit;
             $this->prepareGifs($gifs['data']);
             $this->setGifsPagination($gifs['pagination'], $limit);
 
         } else {
             $httpStatus = 200;
+            $this->data['limit'] = self::LIMIT;
             $this->data['first_visit'] = true;
         }
         $this->data['httpStatus'] = $httpStatus;

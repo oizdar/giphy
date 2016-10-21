@@ -2,12 +2,12 @@
     Found {{ pagination.total_count }} Gifs.
     <hr>
     {% if pagination.page > 1 %}
-        <a href="{{pagination.url}}?phrase={{phrase}}&page={{pagination.page-1}}">Previous</a>
+        <a href="{{pagination.url}}?phrase={{phrase}}&limit={{limit}}&page={{pagination.page-1}}">Previous</a>
     {% endif %}
     {% if not (pagination.pages == 1) %}
         Page {{ pagination.page }} of {{ pagination.pages }}
     {% endif %}
     {% if pagination.page < pagination.pages %}
-        <a href="{{pagination.url}}?phrase={{phrase}}&page={{pagination.page+1}}">Next</a>
+        <a href="{{pagination.url}}?phrase={{phrase}}&limit={{limit}}&page={{pagination.page+1}}">Next</a>
     {% endif %}
 </nav>
