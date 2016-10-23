@@ -36,6 +36,9 @@ class Controller
 
     private function __construct()
     {
+        ob_start();
+        header('Content-Type:text/html; charset=UTF-8');
+
         $loader = new \Twig_Loader_Filesystem('templates');
         $this->twig = new \Twig_Environment($loader);
     }
@@ -63,7 +66,7 @@ class Controller
             $this->data['meta'] = ['msg' => 'Method doesn\'t Exist'];
         }
         echo $this->twig->render($this->template, $this->data);
-
+        ob_end_flush();
     }
 
     /**
