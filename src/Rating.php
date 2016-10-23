@@ -40,6 +40,36 @@ class Rating
     }
 
     /**
+     * Select choosen Gifs ratings
+     * @param  array  $ids  Array of ids choosen gifs
+     * @return array
+     */
+    public function selectRated(array $ids) : array
+    {
+        $query = $this->prepareUnion($ids);
+        $statement = $this->db->query($query);
+        return $statement->fetchAll();
+    }
+
+    /**
+     * Create query with UNION statement
+     * @param  array        $ids
+     * @param  boolean $recurrent true if it is a reccurent call
+     * @return string
+     */
+    private function prepareUnion(array $ids, bool $recurrent = false) : string
+    {
+        $query = '';
+        if (!empty($ids)) {
+            if ($recurrent) {
+                $query = ' UNION ';
+            }
+            return $query .= '(SELECT * from `giphy` where id=\'' . array_pop($ids) . '\')' . $this->prepareUnion($ids, true);
+        }
+        return $query . ';';
+
+    }
+    /**
      * Increase Gif's Like rating
      * @param string $id
      * @return array

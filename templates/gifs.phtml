@@ -18,11 +18,25 @@
                 </video>
                 <button class="like" value="{{gif.id}}"
                     {% if gif.rated.user is same as('like') %} disabled {% endif %}>
-                        Like | <span id="{{gif.id}}-like">{{ gif.rated.like }}</span>
+                        Like |
+                        <span id="{{gif.id}}-like">
+                            {% if gif.rated.like %}
+                                {{ gif.rated.like }}
+                            {% else %}
+                                0
+                            {% endif %}
+                        </span>
                 </button>
                 <button class="dislike" value="{{gif.id}}"
                     {% if gif.rated.user is same as('dislike') %} disabled {% endif %}>
-                    Dislike | <span id="{{gif.id}}-dislike">{{ gif.rated.dislike }}</span>
+                    Dislike |
+                        <span id="{{gif.id}}-dislike">
+                            {% if gif.rated.dislike %}
+                                {{ gif.rated.dislike }}
+                            {% else %}
+                                0
+                            {% endif %}
+                        </span>
                 </button>
             </div>
             {% endfor %}

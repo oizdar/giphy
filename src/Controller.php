@@ -117,10 +117,7 @@ class Controller
             $rating = new Rating();
             foreach ($gifs as &$gif) {
                 $rated = $rating->getGifRating($gif['id']);
-                if (!$rated) {
-                    $gif['rated']['like'] = 0;
-                    $gif['rated']['dislike'] = 0;
-                } else {
+                if ($rated) {
                     $gif['rated']['like'] =
                         (!empty($rated['like'])) ? $rated['like'] : 0;
                     $gif['rated']['dislike'] =
