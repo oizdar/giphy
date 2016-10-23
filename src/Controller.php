@@ -38,7 +38,6 @@ class Controller
     {
         ob_start();
         header('Content-Type:text/html; charset=UTF-8');
-        header('Cache-Control: no-cache, no-store, must-revalidate');
 
         $loader = new \Twig_Loader_Filesystem('templates');
         $this->twig = new \Twig_Environment($loader);
