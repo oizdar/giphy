@@ -7,4 +7,6 @@ Possible actions:
 * Choosing how much gifs will be displayed on every page.
 * Change (next/previous) page or choose specific page (dropdown select input working at onchange event).
 
-Possible is rating every Gif (Like/Dislike buttons working at onclick event). One person can rate only one gif. Can also change his mind. But not remove selection. 
+Possible is rating every Gif (Like/Dislike buttons working at onclick event). One person can rate only one gif. Can also change his mind. But not remove selection.
+
+Demo: [Giphy Api](https://giphy.oizdar.kylos.pl).
