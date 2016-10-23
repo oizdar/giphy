@@ -7,8 +7,9 @@
         <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
     </head>
     <body>
-    <form method="POST" id="search-form" action="index.php">
-        <div class="form-container">
+    <div class="form-container">
+        <form method="POST" id="search-form" action="index.php">
+            <h2>Gifs Search engine </h2>
             <label>Search by: </label>
             <input type="text" name="phrase" id="search-phrase" value="{{phrase}}"/>
             <label> Gifs on page. </label>
@@ -25,14 +26,14 @@
                 100</option>
             </select>
             <button type="submit" class="btn">Search</button>
+        </form>
 
             {% if not httpStatus == 200 %}
             <div class="error " id="error-msg">{{ meta.msg }}</div>
             {% endif %}
-        </div>
+    </div>
         {% if not first_visit %}
             {{ include('gifs.phtml') }}
         {% endif %}
-    </form>
     </body>
 </html>

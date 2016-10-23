@@ -1,5 +1,5 @@
 <nav id="gifs_nav">
-    Found {{ pagination.total_count }}
+    Found: {{ pagination.total_count }}
     <hr />
     {% if pagination.page > 1 %}
         <a href="{{pagination.url}}?phrase={{phrase}}&limit={{limit}}&page={{pagination.page-1}}">Previous</a>
@@ -10,8 +10,8 @@
     {% if pagination.page < pagination.pages %}
         <a href="{{pagination.url}}?phrase={{phrase}}&limit={{limit}}&page={{pagination.page+1}}">Next</a>
     {% endif %}
-    <hr />
     {% if pagination.pages > 1 %}
+    <hr />
     <label>Select Page:</label>
         <select id="select_page">
             {% for i in 1..pagination.pages %}
