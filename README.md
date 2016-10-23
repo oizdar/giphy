@@ -9,4 +9,4 @@ Possible actions:
 
 Possible is rating every Gif (Like/Dislike buttons working at onclick event). One person can rate only one gif. Can also change his mind. But not remove selection.
 
-Demo: [Giphy Api](https://giphy.oizdar.kylos.pl).
+Demo: [demo](https://giphy.oizdar.kylos.pl).
