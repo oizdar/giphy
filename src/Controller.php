@@ -38,6 +38,7 @@ class Controller
     {
         ob_start();
         header('Content-Type:text/html; charset=UTF-8');
+        header('Cache-Control: no-cache, no-store, must-revalidate');
 
         $loader = new \Twig_Loader_Filesystem('templates');
         $this->twig = new \Twig_Environment($loader);
@@ -118,10 +119,8 @@ class Controller
             foreach ($gifs as &$gif) {
                 $rated = $rating->getGifRating($gif['id']);
                 if ($rated) {
-                    $gif['rated']['like'] =
-                        (!empty($rated['like'])) ? $rated['like'] : 0;
-                    $gif['rated']['dislike'] =
-                        (!empty($rated['dislike'])) ? $rated['dislike'] : 0;
+                    $gif['rated']['like'] = $rated['like'];
+                    $gif['rated']['dislike'] = $rated['dislike'];
                 }
                 if (isset($_COOKIE[$gif['id']])) {
                     $gif['rated']['user'] = $_COOKIE[$gif['id']];

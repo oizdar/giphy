@@ -57,6 +57,7 @@
     color: #000;
     text-decoration: none;
     padding: 4px;
+    height: 30px;
     margin: 0 0 0 30px;
     border: 1px solid #000;
     border-radius: 10px;
@@ -80,6 +81,10 @@
 .gif button:disabled:hover {
     background: #aaa;
     cursor: inherit;
+}
+
+.spinner:before {
+    content: url('../img/spinner.gif');
 }
 
 #header {
