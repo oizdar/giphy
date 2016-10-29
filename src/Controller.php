@@ -34,21 +34,13 @@ class Controller
      */
     private $data = [];
 
-    private function __construct()
+    public function __construct()
     {
         ob_start();
         header('Content-Type:text/html; charset=UTF-8');
 
         $loader = new \Twig_Loader_Filesystem('templates');
         $this->twig = new \Twig_Environment($loader);
-    }
-
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
     }
 
     /**

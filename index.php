@@ -7,5 +7,5 @@ require_once('config.php');
 
 
 
-$controller = main\Controller::getInstance();
+$controller = new main\Controller();
 $controller->execute();
