@@ -8,5 +8,3 @@ Possible actions:
 * Change (next/previous) page or choose specific page (dropdown select input working at onchange event).
 
 Possible is rating every Gif (Like/Dislike buttons working at onclick event). One person can rate only one gif. Can also change his mind. But not remove selection.
-
-[Working Demo](http://giphy.oizdar.kylos.pl).
